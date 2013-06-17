@@ -108,7 +108,3 @@ Dans le but d'apporter de nouvelles fonctionnalités ou de corriger celles exist
 
 Il serait possible d'ajouter une connectivité ethernet en plus de la connexion USB afin d'utiliser un nombre plus important de modules ou de les piloter à distance.
 L'ajout en plus d'une interface web permettrait d'utiliser l'UltimateIO à partir de n'importe quel appareil connecté sur le même réseau que celui-ci (ordinateur, smartphone, tablette).
-=======
-UltimateIO
-==========
->>>>>>> efadf70a886205fe77e924dd509e91fbd55c27d3
