@@ -30,6 +30,10 @@
 #include "usb_lib.h"
 #include "usb_desc.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* USB Standard Device Descriptor */
 const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
   {
@@ -170,5 +174,9 @@ uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
     USB_STRING_DESCRIPTOR_TYPE,                   /* bDescriptorType */
     'S', 0, 'T', 0, 'M', 0, '3', 0, '2', 0, '1', 0, '0', 0
   };
+
+#ifdef __cplusplus
+ }
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

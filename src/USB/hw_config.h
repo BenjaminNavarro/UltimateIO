@@ -31,9 +31,13 @@
 #define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f10x.h"
 #include "platform_config.h"
 #include "usb_type.h"
-#include "stm32f10x_type.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -44,8 +48,6 @@
 #define LED_ON                0xF0
 #define LED_OFF               0xFF
 
-#define USART_RX_DATA_SIZE   2048
-
 /* Exported functions ------------------------------------------------------- */
 void Set_System(void);
 void Set_USBClock(void);
@@ -53,14 +55,12 @@ void Enter_LowPowerMode(void);
 void Leave_LowPowerMode(void);
 void USB_Interrupts_Config(void);
 void USB_Cable_Config (FunctionalState NewState);
-void USART_Config_Default(void);
-bool USART_Config(void);
-void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
-void USART_To_USB_Send_Data(void);
-void Handle_USBAsynchXfer (void);
-void Get_SerialNum(void);
 
 /* External variables --------------------------------------------------------*/
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif  /*__HW_CONFIG_H*/
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

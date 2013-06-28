@@ -32,12 +32,18 @@
 #include "usb_pwr.h"
 #include "usb_istr.h"
 
+
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 __IO uint16_t wIstr;  /* ISTR register last read value */
 __IO uint8_t bIntPackSOF = 0;  /* SOFs received between 2 consecutive packets */
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -393,5 +399,9 @@ u32 STM32_PCD_OTG_ISR_Handler (void)
 }
 
 #endif /* STM32F10X_CL */
+
+#ifdef __cplusplus
+ }
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

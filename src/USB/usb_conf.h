@@ -30,6 +30,10 @@
 #ifndef __USB_CONF_H
 #define __USB_CONF_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -204,6 +208,10 @@
 #define  EP5_OUT_Callback   NOP_Process
 #define  EP6_OUT_Callback   NOP_Process
 #define  EP7_OUT_Callback   NOP_Process
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif /* __USB_CONF_H */
 

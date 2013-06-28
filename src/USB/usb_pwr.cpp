@@ -33,13 +33,16 @@
 #include "usb_conf.h"
 #include "usb_pwr.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 __IO uint32_t bDeviceState = UNCONNECTED; /* USB device status */
-__IO bool fSuspendEnabled = TRUE;  /* true when suspend is possible */
+__IO uint8_t fSuspendEnabled = 1;  /* true when suspend is possible */
 
 struct
 {
@@ -261,5 +264,9 @@ void Resume(RESUME_STATE eResumeSetVal)
       break;
   }
 }
+
+#ifdef __cplusplus
+ }
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

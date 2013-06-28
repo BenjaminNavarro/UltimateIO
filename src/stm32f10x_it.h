@@ -30,6 +30,10 @@
 #ifndef __STM32_IT_H
 #define __STM32_IT_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "platform_config.h"
 
@@ -63,6 +67,10 @@ void USART2_IRQHandler(void);
 #ifdef STM32F10X_CL
 void OTG_FS_IRQHandler(void);
 #endif /* STM32F10X_CL */
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif /* __STM32_IT_H */
 

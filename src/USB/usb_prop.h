@@ -30,6 +30,10 @@
 #ifndef __usb_prop_H
 #define __usb_prop_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 typedef struct
@@ -80,6 +84,10 @@ uint8_t *Virtual_Com_Port_GetStringDescriptor(uint16_t);
 
 uint8_t *Virtual_Com_Port_GetLineCoding(uint16_t Length);
 uint8_t *Virtual_Com_Port_SetLineCoding(uint16_t Length);
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif /* __usb_prop_H */
 

@@ -34,6 +34,10 @@
 #include "usb_pwr.h"
 #include "hw_config.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -118,12 +122,7 @@ ONE_DESCRIPTOR String_Descriptor[4] =
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void Virtual_Com_Port_init(void)
-{
-
-  /* Update the serial number string descriptor with the data from the unique
-  ID*/
-  Get_SerialNum();
+void Virtual_Com_Port_init(void) {
 
   pInformation->Current_Configuration = 0;
 
@@ -132,9 +131,6 @@ void Virtual_Com_Port_init(void)
 
   /* Perform basic device initialization operations */
   USB_SIL_Init();
-
-  /* configure the USART to the default settings */
-  USART_Config_Default();
 
   bDeviceState = UNCONNECTED;
 }
@@ -248,7 +244,6 @@ void Virtual_Com_Port_Status_In(void)
 {
   if (Request == SET_LINE_CODING)
   {
-    USART_Config();
     Request = 0;
   }
 }
@@ -274,13 +269,14 @@ RESULT Virtual_Com_Port_Data_Setup(uint8_t RequestNo)
 {
   uint8_t    *(*CopyRoutine)(uint16_t);
 
-  CopyRoutine = NULL;
+  uint8_t ok = 0;
 
   if (RequestNo == GET_LINE_CODING)
   {
     if (Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
     {
       CopyRoutine = Virtual_Com_Port_GetLineCoding;
+      ok = 1;
     }
   }
   else if (RequestNo == SET_LINE_CODING)
@@ -288,11 +284,12 @@ RESULT Virtual_Com_Port_Data_Setup(uint8_t RequestNo)
     if (Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
     {
       CopyRoutine = Virtual_Com_Port_SetLineCoding;
+      ok = 1;
     }
     Request = SET_LINE_CODING;
   }
 
-  if (CopyRoutine == NULL)
+  if (ok == 0)
   {
     return USB_UNSUPPORT;
   }
@@ -364,7 +361,7 @@ uint8_t *Virtual_Com_Port_GetStringDescriptor(uint16_t Length)
   uint8_t wValue0 = pInformation->USBwValue0;
   if (wValue0 > 4)
   {
-    return NULL;
+    return (uint8_t*)NULL;
   }
   else
   {
@@ -406,7 +403,7 @@ uint8_t *Virtual_Com_Port_GetLineCoding(uint16_t Length)
   if (Length == 0)
   {
     pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);
-    return NULL;
+    return (uint8_t*)NULL;
   }
   return(uint8_t *)&linecoding;
 }
@@ -423,10 +420,14 @@ uint8_t *Virtual_Com_Port_SetLineCoding(uint16_t Length)
   if (Length == 0)
   {
     pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);
-    return NULL;
+    return (uint8_t*)NULL;
   }
   return(uint8_t *)&linecoding;
 }
+
+#ifdef __cplusplus
+ }
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

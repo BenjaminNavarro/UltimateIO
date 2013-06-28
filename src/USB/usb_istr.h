@@ -33,6 +33,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usb_conf.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -127,6 +131,9 @@ void INTR_RXSTSQLVL_ISODU_Callback(void);
 
 #endif /* STM32F10X_CL */
 
+#ifdef __cplusplus
+ }
+#endif
 
 #endif /*__USB_ISTR_H*/
 

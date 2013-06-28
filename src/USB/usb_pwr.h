@@ -30,7 +30,11 @@
 #ifndef __USB_PWR_H
 #define __USB_PWR_H
 
-#include "stm32f10x_type.h"
+#include "stm32f10x.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
@@ -67,7 +71,11 @@ RESULT PowerOff(void);
 
 /* External variables --------------------------------------------------------*/
 extern  __IO uint32_t bDeviceState; /* USB device status */
-extern __IO bool fSuspendEnabled;  /* true when suspend is possible */
+extern __IO uint8_t fSuspendEnabled;  /* true when suspend is possible */
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif  /*__USB_PWR_H*/
 

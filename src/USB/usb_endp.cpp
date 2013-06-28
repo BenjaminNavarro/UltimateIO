@@ -34,20 +34,20 @@
 #include "usb_istr.h"
 #include "usb_pwr.h"
 
+ uint8_t Rx[100];
+
+extern void OUT_Callback(uint8_t*, uint8_t);
+
+void USB_SendData(uint8_t* buffer, uint8_t length) {
+	UserToPMABufferCopy(buffer, ENDP1_TXADDR, length);
+	SetEPTxCount(ENDP1, length);
+	SetEPTxValid(ENDP1);
+}
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-
-/* Interval between sending IN packets in frame number (1 frame = 1ms) */
-#define VCOMPORT_IN_FRAME_INTERVAL             5
-
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-uint8_t USB_Rx_Buffer[VIRTUAL_COM_PORT_DATA_SIZE];
-extern  uint8_t USART_Rx_Buffer[];
-extern uint32_t USART_Rx_ptr_out;
-extern uint32_t USART_Rx_length;
-extern uint8_t  USB_Tx_State;
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -70,32 +70,12 @@ void EP1_IN_Callback (void) {
  * Return         : None.
  *******************************************************************************/
 void EP3_OUT_Callback(void) {
-	uint8_t ack = 0x55, nack = 0xAA;
-	uint16_t USB_Rx_Cnt;
+	uint16_t count;
 
 	/* Get the received data buffer and update the counter */
-	USB_Rx_Cnt = USB_SIL_Read(EP3_OUT, USB_Rx_Buffer);
+	count = USB_SIL_Read(EP3_OUT, Rx);
 
-	switch(USB_Rx_Buffer[0]) {
-
-	case 1: // LED Command
-		if(USB_Rx_Buffer[1] == LED_ON)
-			GPIO_SetBits(GPIOB, GPIO_Pin_0);
-		else if (USB_Rx_Buffer[1] == LED_OFF)
-			GPIO_ResetBits(GPIOB, GPIO_Pin_0);
-
-		UserToPMABufferCopy(&ack, ENDP1_TXADDR, 1);
-		SetEPTxCount(ENDP1, 1);
-		SetEPTxValid(ENDP1);
-
-		break;
-
-	default:
-		UserToPMABufferCopy(&nack, ENDP1_TXADDR, 1);
-		SetEPTxCount(ENDP1, 1);
-		SetEPTxValid(ENDP1);
-		break;
-	}
+	OUT_Callback(Rx, count);
 
 #ifndef STM32F10X_CL
 	/* Enable the receive of data on EP3 */
@@ -117,19 +97,7 @@ void INTR_SOFINTR_Callback(void)
 void SOF_Callback(void)
 #endif /* STM32F10X_CL */
 {
-	static uint32_t FrameCount = 0;
 
-	if(bDeviceState == CONFIGURED)
-	{
-		if (FrameCount++ == VCOMPORT_IN_FRAME_INTERVAL)
-		{
-			/* Reset the frame counter */
-			FrameCount = 0;
-
-			/* Check the data to be sent through IN pipe */
-			Handle_USBAsynchXfer();
-		}
-	}
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 
